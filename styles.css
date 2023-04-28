@@ -1,0 +1,70 @@
+.container {
+    margin-top: 5px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.btn-primary {
+    margin-top: 20px;
+}
+
+.banner {
+    background: url("images/banner1.png") repeat-x;
+    background-repeat: repeat-x;
+    background-size: contain;
+    height: 200px;
+    text-align: center;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner h1 {
+    font-size: 3rem;
+}
+
+
+/* Estilos adicionais */
+.breed-info-container {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.breed-info-container h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.breed-info-container img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+
+.footer {
+    background-color: #bbc9d6; /* Mesma cor do bg-light do Bootstrap */
+    padding: 15px 0;
+}
+
+.footer a {
+    color: #0c3094; /* Mesma cor do texto do tema light do Bootstrap */
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: #007bff; /* Cor padrão do link ao passar o mouse */
+}
+
+#footer-dog-image {
+    width: 20px;
+    height: auto;
+    display: inline;
+    margin: 5px auto;
+}

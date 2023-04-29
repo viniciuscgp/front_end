@@ -36,4 +36,4 @@ Se você deseja contribuir com o projeto, basta seguir os seguintes passos:
 
 ## Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE.md para mais detalhes.
+ https://opensource.org/licenses/MIT

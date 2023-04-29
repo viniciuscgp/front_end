@@ -32,83 +32,83 @@ $(document).ready(function () {
       .catch(mostraErro(error));
   }
 
-
-
-  // CADASTRAR
-  //---------------------------------------------------------------
-
-  function cadastrarPet(pet) {
-    $.ajax({
-      url: apiUrl,
-      method: 'POST',
-      data: pet,
-      success: function () {
-        // Limpa o formulário de cadastro
-        $('#form-pet')[0].reset();
-
-        // Lista os pets atualizados
-        listarPets();
-      },
-      error: function (xhr, status, error) {
-        // Exibe a mensagem de erro em um alerta
-        mostraErro("Erro ao adicionar: " + error)
-      }
-    });
-  }
-
-  // Evento SUBMIT do Form
-  //---------------------------------------------------------------
-  $('#form-pet').submit(function (event) {
-    event.preventDefault();
-    var pet = {
-      nome: $('#nome').val(),
-      raca: $('#raca').val(),
-      idade: $('#idade').val(),
-      tutor_email: $('#tutor-email').val(),
-      tutor_telefone: $('#tutor-telefone').val(),
-    };
-
-    cadastrarPet(pet);
-  });
-
-  // EXCLUIR
-  //-----------------------------------------------------------------
-  $('#table-pets').on('click', '.btn-excluir', function () {
-    var id = $(this).data('id');
-
-    $.ajax({
-      url: apiUrl + '/' + id,
-      method: 'DELETE',
-      success: function () {
-        // Lista os pets atualizados
-        listarPets();
-      }
-    });
-  });
-
-  // EDITAR
-  //-----------------------------------------------------------------
-  $('#table-pets').on('click', '.btn-editar', function () {
-    var pet = $(this).data('pet');
-    exibirMensagemDeErro(pet)
-    $('#form-pet #nome').val(pet.nome);
-    $('#form-pet #raca').val(pet.raca);
-    $('#form-pet #idade').val(pet.idade);
-    $('#form-pet #tutor-email').val(pet.tutorEmail);
-    $('#form-pet #tutor-telefone').val(pet.tutorTelefone);
-
-    // Exibe o formulário de edição se estiver oculto
-    if ($('#div-cadastro').hasClass('d-none')) {
-      $('#mostrar-formulario').trigger('click');
-    }
-
-  });
-
   preparaShowPetInfo();
   preparaMostrarFormulario();
-  // Lista os pets ao carregar a página
+  preparaLinks();
   listarPets();
+
 });
+// CADASTRAR
+//---------------------------------------------------------------
+
+function cadastrarPet(pet) {
+  $.ajax({
+    url: apiUrl,
+    method: 'POST',
+    data: pet,
+    success: function () {
+      // Limpa o formulário de cadastro
+      $('#form-pet')[0].reset();
+
+      // Lista os pets atualizados
+      listarPets();
+    },
+    error: function (xhr, status, error) {
+      // Exibe a mensagem de erro em um alerta
+      mostraErro("Erro ao adicionar: " + error)
+    }
+  });
+}
+
+// Evento SUBMIT do Form
+//---------------------------------------------------------------
+$('#form-pet').submit(function (event) {
+  event.preventDefault();
+  var pet = {
+    nome: $('#nome').val(),
+    raca: $('#raca').val(),
+    idade: $('#idade').val(),
+    tutor_email: $('#tutor-email').val(),
+    tutor_telefone: $('#tutor-telefone').val(),
+  };
+
+  cadastrarPet(pet);
+});
+
+// EXCLUIR
+//-----------------------------------------------------------------
+$('#table-pets').on('click', '.btn-excluir', function () {
+  var id = $(this).data('id');
+
+  $.ajax({
+    url: apiUrl + '/' + id,
+    method: 'DELETE',
+    success: function () {
+      // Lista os pets atualizados
+      listarPets();
+    }
+  });
+});
+
+// EDITAR
+//-----------------------------------------------------------------
+$('#table-pets').on('click', '.btn-editar', function () {
+  var pet = $(this).data('pet');
+  exibirMensagemDeErro(pet)
+  $('#form-pet #nome').val(pet.nome);
+  $('#form-pet #raca').val(pet.raca);
+  $('#form-pet #idade').val(pet.idade);
+  $('#form-pet #tutor-email').val(pet.tutorEmail);
+  $('#form-pet #tutor-telefone').val(pet.tutorTelefone);
+
+  // Exibe o formulário de edição se estiver oculto
+  if ($('#div-cadastro').hasClass('d-none')) {
+    $('#mostrar-formulario').trigger('click');
+  }
+
+});
+
+
 
 // EVENTO change da LIST 'raca'
 //-------------------------------------------------------------
@@ -237,6 +237,21 @@ function preparaMostrarFormulario() {
   });
 }
 
+// EVENTO Click dos links do rodape
+//-------------------------------------------------------------
+
+function preparaLinks() {
+  document.getElementById('linkPoliticaPrivacidade').addEventListener('click', function (event) {
+    event.preventDefault();
+    mostraMensagem('Política de Privacidade', 'static/politica_privacidade.html');
+  });
+
+  document.getElementById('linkTermosDeUso').addEventListener('click', function (event) {
+    event.preventDefault();
+    mostraMensagem('Termos de Uso', 'static/termos_uso.html');
+  });
+}
+
 // AUXILIAR - Exibe uma mensagem de erro em um MODAL
 //------------------------------------------------------------
 function mostraErro(mensagem) {
@@ -253,3 +268,20 @@ const clicouRaca = (event) => {
 };
 
 
+async function mostraMensagem(title, url) {
+  const modalElement = document.getElementById('modal-message');
+  const modal = new bootstrap.Modal(modalElement);
+
+  document.getElementById('modalLabel').innerText = title;
+
+  try {
+    const response = await fetch(url);
+    const text = await response.text();
+    document.getElementById('modalText').innerHTML = text;
+  } catch (error) {
+    console.error('Erro ao buscar o arquivo:', error);
+    document.getElementById('modalText').innerText = 'Ocorreu um erro ao carregar o conteúdo. Por favor, tente novamente mais tarde.';
+  }
+
+  modal.show();
+}

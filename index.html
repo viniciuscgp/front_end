@@ -15,7 +15,9 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <!-- MENU de Naveção -------------------------------------------------------- -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Doe o Seu Pet</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +35,9 @@
         </div>
     </nav>
 
+    <!--  CONTAINER principal da Página -------------------------------------- -->
     <div class="container">
+        <!-- BANNER ---------------------------------------------------------- -->
         <div class="row mt-3">
             <div class="col-md-12">
                 <div class="banner">
@@ -41,6 +45,7 @@
             </div>
         </div>
 
+        <!-- FOMULÁRIO de Cadastro / Edição -------------------------------------->
         <div class="row mt-3">
             <div class="col-md-12">
                 <button class="btn btn-primary mb-3" id="mostrar-formulario">Mostrar formulário de cadastro</button>
@@ -111,6 +116,7 @@
             </div>
         </div>
 
+        <!--LISTA de Pets--------------------------------------------------------  -->
         <div class="container">
             <div class="row mt-3">
                 <div class="col-md-12">
@@ -131,10 +137,12 @@
                 </div>
             </div>
         </div>
+
         <div id="div-mensagem-de-erro">
 
         </div>
 
+        <!-- MODAL - Mostrar uma Mensagem de ERRO -->
         <div class="modal modal-lg" tabindex="-1" role="dialog" id="modal-erro">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -151,6 +159,7 @@
             </div>
         </div>
 
+        <!-- MODAL - Mostra uma Mensagem--------------------------------- -->
         <div class="modal fade" id="modal-message" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -166,6 +175,7 @@
             </div>
         </div>
 
+        <!-- RODAPÉ------------------------------------------------------ -->
         <footer class="footer">
             <div class="container">
                 <div class="row">
@@ -184,6 +194,21 @@
 
             </div>
         </footer>
+
+        <!-- MENSAGEM de Cookie------------------------------------------- -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+            <div id="cookie-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Aviso de Cookies</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Nós utilizamos cookies para melhorar sua experiência de navegação. Ao continuar utilizando nosso
+                    site, você concorda com o uso de cookies. <a href="/politica_privacidade.html">Saiba mais</a>.
+                </div>
+            </div>
+        </div>
+
 
     </div>
 

@@ -1,43 +1,46 @@
-$(document).ready(function () {
   // URL da API RESTful
-  var apiUrl = 'http://localhost:5000/pets';
+var apiUrl = 'http://localhost:5000/pets';
+
+$(document).ready(function () {
 
   $('#modal-erro').modal({
     show: false
   });
 
-  function listarPets() {
-    fetch(apiUrl)
-      .then(response => response.json())
-      .then(data => {
-        // Limpa a tabela de pets
-        const tbody = document.querySelector('#table-pets tbody');
-        tbody.innerHTML = '';
-
-        // Preenche a tabela de pets com os dados da API
-        data.pets.forEach(pet => {
-          const newRow = tbody.insertRow();
-          newRow.innerHTML = `
-            <td>${pet.nome}</td>
-            <td><a href="#" onclick="clicouRaca(this);">${pet.raca}</a></td>
-            <td>${pet.idade}</td>
-            <td>
-              <button class="btn btn-info btn-editar" data-pet="${pet}" data-id="${pet.id}"><i class="fas fa-pencil-alt" title="Edita as informações deste Pet"></i></button>
-              <button class="btn btn-danger btn-excluir" data-id="${pet.id}"><i class="fas fa-trash-alt" title="Exclui este Pet"></i></button>
-            </td>
-          `;
-
-        });
-      })
-      .catch(mostraErro(error));
-  }
-
   preparaShowPetInfo();
   preparaMostrarFormulario();
-  preparaLinks();
+  preparaLinksRodape();
   listarPets();
-
 });
+
+// LISTAR TODOS OS PETS
+//---------------------------------------------------------------
+function listarPets() {
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      // Limpa a tabela de pets
+      const tbody = document.querySelector('#table-pets tbody');
+      tbody.innerHTML = '';
+
+      // Preenche a tabela de pets com os dados da API
+      data.pets.forEach(pet => {
+        const newRow = tbody.insertRow();
+        newRow.innerHTML = `
+          <td>${pet.nome}</td>
+          <td><a href="#" onclick="clicouRaca(this);">${pet.raca}</a></td>
+          <td>${pet.idade}</td>
+          <td>
+            <button class="btn btn-info btn-editar" data-pet="${pet}" data-id="${pet.id}"><i class="fas fa-pencil-alt" title="Edita as informações deste Pet"></i></button>
+            <button class="btn btn-danger btn-excluir" data-id="${pet.id}"><i class="fas fa-trash-alt" title="Exclui este Pet"></i></button>
+          </td>
+        `;
+
+      });
+    })
+    .catch(mostraErro(error));
+}
+
 // CADASTRAR
 //---------------------------------------------------------------
 
@@ -93,8 +96,8 @@ $('#table-pets').on('click', '.btn-excluir', function () {
 // EDITAR
 //-----------------------------------------------------------------
 $('#table-pets').on('click', '.btn-editar', function () {
-  var pet = $(this).data('pet');
-  exibirMensagemDeErro(pet)
+  var pet_id = $(this).data('id');
+  mostraErro(pet_id)
   $('#form-pet #nome').val(pet.nome);
   $('#form-pet #raca').val(pet.raca);
   $('#form-pet #idade').val(pet.idade);
@@ -107,8 +110,6 @@ $('#table-pets').on('click', '.btn-editar', function () {
   }
 
 });
-
-
 
 // EVENTO change da LIST 'raca'
 //-------------------------------------------------------------
@@ -240,7 +241,7 @@ function preparaMostrarFormulario() {
 // EVENTO Click dos links do rodape
 //-------------------------------------------------------------
 
-function preparaLinks() {
+function preparaLinksRodape() {
   document.getElementById('linkPoliticaPrivacidade').addEventListener('click', function (event) {
     event.preventDefault();
     mostraMensagem('Política de Privacidade', 'static/politica_privacidade.html');

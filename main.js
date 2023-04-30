@@ -1,5 +1,5 @@
-  // URL da API RESTful
-var apiUrl = 'http://localhost:5000/pets';
+// URL da API RESTful
+const API_URL = 'http://localhost:5000/pets';
 
 $(document).ready(function () {
 
@@ -10,13 +10,14 @@ $(document).ready(function () {
   preparaShowPetInfo();
   preparaMostrarFormulario();
   preparaLinksRodape();
+  exibirCookie();
   listarPets();
 });
 
 // LISTAR TODOS OS PETS
 //---------------------------------------------------------------
 function listarPets() {
-  fetch(apiUrl)
+  fetch(API_URL)
     .then(response => response.json())
     .then(data => {
       // Limpa a tabela de pets
@@ -38,7 +39,21 @@ function listarPets() {
 
       });
     })
-    .catch(mostraErro(error));
+    .catch(error => mostraErro(error));
+}
+
+// GET Pet By ID
+//--------------------------------------------------------------
+async function getPetById(id) {
+  var url = API_URL + `/${id}`
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    mostraErro(error);
+  }
+
 }
 
 // CADASTRAR
@@ -46,27 +61,51 @@ function listarPets() {
 
 function cadastrarPet(pet) {
   $.ajax({
-    url: apiUrl,
+    url: API_URL,
     method: 'POST',
     data: pet,
     success: function () {
-      // Limpa o formulário de cadastro
-      $('#form-pet')[0].reset();
-
-      // Lista os pets atualizados
       listarPets();
+      mostraAviso("Adicionado com sucesso!")
     },
     error: function (xhr, status, error) {
-      // Exibe a mensagem de erro em um alerta
       mostraErro("Erro ao adicionar: " + error)
     }
   });
+  $('#form-pet')[0].reset();
 }
+
+// ALTERAR
+//---------------------------------------------------------------
+
+function alterarPet(pet, pet_id) {
+
+  $.ajax({
+    url: API_URL + `/${pet_id}`,
+    method: 'PUT',
+    data: pet,
+    success: function () {
+      listarPets();
+      mostraAviso("Alterado com sucesso!")
+    },
+    error: function (xhr, status, error) {
+      mostraErro("Erro ao atualizar: " + error)
+    }
+  });
+  $('#form-pet')[0].reset();
+
+  btn = document.getElementById("btn_cadastrar");
+  btn.innerText = "Cadastrar";
+}
+
 
 // Evento SUBMIT do Form
 //---------------------------------------------------------------
 $('#form-pet').submit(function (event) {
   event.preventDefault();
+
+  const pet_id = $('#form-pet #pet-id').val();
+
   var pet = {
     nome: $('#nome').val(),
     raca: $('#raca').val(),
@@ -75,39 +114,62 @@ $('#form-pet').submit(function (event) {
     tutor_telefone: $('#tutor-telefone').val(),
   };
 
-  cadastrarPet(pet);
+  if (!pet_id)
+    cadastrarPet(pet);
+  else
+    alterarPet(pet, pet_id);
 });
 
 // EXCLUIR
 //-----------------------------------------------------------------
 $('#table-pets').on('click', '.btn-excluir', function () {
   var id = $(this).data('id');
+  confirmaExclusaoPet(id);
+});
 
+function excluiPet(id) {
   $.ajax({
-    url: apiUrl + '/' + id,
+    url: API_URL + '/' + id,
     method: 'DELETE',
     success: function () {
       // Lista os pets atualizados
       listarPets();
     }
   });
-});
+
+}
+
+function confirmaExclusaoPet(id) {
+  $('#modal-pergunta').modal('show');
+
+  $('#btn-modal-pergunta-excluir').off().on('click', function () {
+    excluiPet(id);
+    $('#modal-pergunta').modal('hide');
+  });
+}
 
 // EDITAR
 //-----------------------------------------------------------------
-$('#table-pets').on('click', '.btn-editar', function () {
+$('#table-pets').on('click', '.btn-editar', async function () {
   var pet_id = $(this).data('id');
-  mostraErro(pet_id)
-  $('#form-pet #nome').val(pet.nome);
-  $('#form-pet #raca').val(pet.raca);
-  $('#form-pet #idade').val(pet.idade);
-  $('#form-pet #tutor-email').val(pet.tutorEmail);
-  $('#form-pet #tutor-telefone').val(pet.tutorTelefone);
+  var pet = await getPetById(pet_id)
 
   // Exibe o formulário de edição se estiver oculto
   if ($('#div-cadastro').hasClass('d-none')) {
     $('#mostrar-formulario').trigger('click');
   }
+
+  document.getElementById('nome').focus();
+
+  $('#form-pet #pet-id').val(pet.id); // Para podermos atualizar os dados do Pet. (hidden)
+  $('#form-pet #nome').val(pet.nome);
+  $('#form-pet #raca').val(pet.raca);
+  $('#form-pet #idade').val(pet.idade);
+  $('#form-pet #tutor-email').val(pet.tutor_email);
+  $('#form-pet #tutor-telefone').val(pet.tutor_telefone);
+
+  btn = document.getElementById("btn_cadastrar");
+  btn.innerText = "Alterar";
 
 });
 
@@ -230,8 +292,9 @@ function preparaMostrarFormulario() {
   btnMostrarFormulario.addEventListener('click', function () {
     divCadastro.classList.toggle('d-none');
     divDadosRaca.classList.toggle('d-none');
+
     if (divCadastro.classList.contains('d-none')) {
-      btnMostrarFormulario.textContent = 'Mostrar formulário de cadastro';
+      btnMostrarFormulario.textContent = 'Cadastrar um Novo Pet';
     } else {
       btnMostrarFormulario.textContent = 'Esconder formulário de cadastro';
     }
@@ -253,21 +316,36 @@ function preparaLinksRodape() {
   });
 }
 
-// AUXILIAR - Exibe uma mensagem de erro em um MODAL
+//------------------------------------------------------------
+// FUNÇÕES AUXILIARES - Exibe uma mensagem de erro em um MODAL
 //------------------------------------------------------------
 function mostraErro(mensagem) {
-  // Define a mensagem de erro na modal
   $('#modal-erro-mensagem').text(mensagem);
-
-  // Exibe a modal
   $('#modal-erro').modal('show');
 }
+
+function mostraAviso(mensagem) {
+  $('#modal-aviso-mensagem').text(mensagem);
+  $('#modal-aviso').modal('show');
+
+  let counter = 5;
+
+  const countdownInterval = setInterval(() => {
+    counter--;
+    $('#countdown').text(counter);
+    if (counter === 0) {
+      clearInterval(countdownInterval);
+      $('#modal-aviso').modal('hide');
+    }
+  }, 1000);
+}
+
+
 
 const clicouRaca = (event) => {
   var url = `https://www.google.com/search?q=${event.innerText}`;
   window.open(url, '_blank');
 };
-
 
 async function mostraMensagem(title, url) {
   const modalElement = document.getElementById('modal-message');
@@ -285,4 +363,20 @@ async function mostraMensagem(title, url) {
   }
 
   modal.show();
+}
+
+
+let cookieModal;
+
+function exibirCookie() {
+  if (!localStorage.getItem('cookieSeen')) {
+    const cookieElement = document.getElementById('cookie-modal');
+    cookieModal = new bootstrap.Modal(cookieElement, { backdrop: 'static', keyboard: false });
+    cookieModal.show();
+  }
+}
+
+function fecharMensagem() {
+  cookieModal.hide();
+  localStorage.setItem('cookieSeen', 'true');
 }

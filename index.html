@@ -48,11 +48,14 @@
         <!-- FOMULÁRIO de Cadastro / Edição -------------------------------------->
         <div class="row mt-3">
             <div class="col-md-12">
-                <button class="btn btn-primary mb-3" id="mostrar-formulario">Mostrar formulário de cadastro</button>
+                <button class="btn btn-primary mb-3" id="mostrar-formulario">Cadastrar um Novo Pet</button>
             </div>
+
             <div class="col-md-6 d-none" id="div-cadastro">
-                <h1>Cadastro de Pets</h1>
+                <h2>Cadastre seu pet aqui </h2>
                 <form id="form-pet">
+                    <input type="hidden" id="pet-id" value="">
+
                     <div class="form-group">
                         <label for="nome">Nome</label>
                         <input type="text" class="form-control" id="nome" placeholder="Digite o nome do pet">
@@ -105,9 +108,10 @@
                             placeholder="Digite o telefone do tutor">
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    <button type="submit" class="btn btn-primary" id="btn_cadastrar">Cadastrar</button>
                 </form>
             </div>
+
             <div class="col-md-6 d-none" id="mostrar-dados-raca">
                 <div id="breed-info" class="breed-info-container">
                     <h3>Selecione uma raça</h3>
@@ -145,6 +149,7 @@
         <!-- MODAL - Mostrar uma Mensagem de ERRO -->
         <div class="modal modal-lg" tabindex="-1" role="dialog" id="modal-erro">
             <div class="modal-dialog modal-dialog-centered" role="document">
+
                 <div class="modal-content">
                     <div class="modal-header bg-danger text-light">
                         <h5 class="modal-title">Erro!</h5>
@@ -152,6 +157,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+
                     <div class="modal-body bg-light">
                         <p id="modal-erro-mensagem"></p>
                     </div>
@@ -159,7 +165,33 @@
             </div>
         </div>
 
-        <!-- MODAL - Mostra uma Mensagem--------------------------------- -->
+        <!-- MODAL - Mostrar uma Mensagem -->
+        <div class="modal fade" id="modal-aviso" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+
+                <div class="modal-content">
+
+                    <div class="modal-header bg-success text-light">
+                        <h5 class="modal-title" id="modalLabel">Aviso</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <p id="modal-aviso-mensagem">A mensagem será exibida aqui.</p>
+                        <p id="timer">Fechando em <span id="countdown">5</span> segundos...</p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL - Mostra uma Mensagem (URL)-->
         <div class="modal fade" id="modal-message" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -175,6 +207,54 @@
             </div>
         </div>
 
+        <!-- MODAL de confirmação -->
+        <div class="modal fade" id="modal-pergunta" tabindex="-1" role="dialog" aria-labelledby="modal-pergunta-label"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-light">
+                        <h5 class="modal-title" id="modal-pergunta-label">Confirmação de exclusão</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-pergunta-body">
+                        Tem certeza que deseja excluir este pet?
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary ml-auto" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-danger" id="btn-modal-pergunta-excluir">Excluir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MENSAGEM de Cookie------------------------------------------- -->
+        <div class="modal" tabindex="-1" role="dialog" id="cookie-modal">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Aviso de Cookies</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            onclick="fecharMensagem()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Nós utilizamos cookies para melhorar sua experiência de navegação. Ao continuar utilizando
+                            nosso site, você concorda com o uso de cookies. <a
+                                href="/static/politica_privacidade.html">Saiba mais</a>.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="fecharMensagem()">Aceitar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- RODAPÉ------------------------------------------------------ -->
         <footer class="footer">
             <div class="container">
@@ -182,6 +262,7 @@
                     <div class="col-md-12 text-center">
                         <img src="images/pets/dog-head.jpg" alt="Cachorrinho" id="footer-dog-image" />
                         <span>&copy; 2023 Doe o Seu Pet. Nenhum direito reservado.</span>
+                        <span class="d-block mt-2">Projeto da Sprint 1 do curso de Full Stack da PUC-RIO</span>
                     </div>
                 </div>
                 <div class="row">
@@ -191,23 +272,11 @@
                         <a href="#" id="linkTermosDeUso">Termos de Uso</a>
                     </div>
                 </div>
-
             </div>
         </footer>
 
-        <!-- MENSAGEM de Cookie------------------------------------------- -->
-        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
-            <div id="cookie-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                    <strong class="me-auto">Aviso de Cookies</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body">
-                    Nós utilizamos cookies para melhorar sua experiência de navegação. Ao continuar utilizando nosso
-                    site, você concorda com o uso de cookies. <a href="/politica_privacidade.html">Saiba mais</a>.
-                </div>
-            </div>
-        </div>
+
+
 
 
     </div>

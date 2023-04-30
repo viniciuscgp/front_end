@@ -49,22 +49,29 @@
 
 
 .footer {
-    background-color: #bbc9d6; /* Mesma cor do bg-light do Bootstrap */
-    padding: 15px 0;
+    background-color: #333;
+    color: #fff;
+    padding: 1.5rem 0;
 }
 
 .footer a {
-    color: #0c3094; /* Mesma cor do texto do tema light do Bootstrap */
+    color: #fff;
     text-decoration: none;
 }
 
 .footer a:hover {
-    color: #007bff; /* Cor padrão do link ao passar o mouse */
+    color: #ccc;
+    text-decoration: underline;
 }
 
 #footer-dog-image {
-    width: 20px;
-    height: auto;
-    display: inline;
-    margin: 5px auto;
+    max-width: 50px;
+    margin-bottom: 1rem;
+}
+
+
+.modal-dialog-centered {
+    display: flex;
+    align-items: center;
+    min-height: calc(100% - 1rem);
 }

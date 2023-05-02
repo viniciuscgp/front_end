@@ -1,6 +1,98 @@
 // URL da API RESTful
 const API_URL = 'http://localhost:5000/pets';
 
+const petInfo = {
+  "Labrador Retriever": {
+    info: "O Labrador Retriever é um cão amigável e inteligente, que adora brincar e estar perto da família. Eles geralmente vivem cerca de 10 a 12 anos.",
+    image: "labrador.jpg"
+  },
+  "Golden Retriever": {
+    info: "O Golden Retriever é um cão carinhoso e leal, que adora brincar e é muito inteligente. Eles geralmente vivem cerca de 10 a 12 anos.",
+    image: "golden.jpg"
+  },
+  "Pastor Alemão": {
+    info: "O Pastor Alemão é um cão inteligente e corajoso, que é comumente usado como cão de trabalho ou guarda. Eles geralmente vivem cerca de 9 a 13 anos.",
+    image: "pastor_alemao.jpg"
+  },
+  "Buldogue": {
+    info: "O Buldogue é um cão afetuoso e amigável, que adora estar perto da família. Eles geralmente vivem cerca de 8 a 10 anos.",
+    image: "buldogue.jpg"
+  },
+  "Beagle": {
+    info: "O Beagle é um cão enérgico e amigável, que é frequentemente usado para caça. Eles geralmente vivem cerca de 12 a 15 anos.",
+    image: "beagle.jpg"
+  },
+  "Poodle": {
+    info: "O Poodle é um cão inteligente e obediente, que é frequentemente usado em competições de beleza. Eles geralmente vivem cerca de 12 a 15 anos.",
+    image: "poodle.jpg"
+  },
+  "Rottweiler": {
+    info: "O Rottweiler é um cão leal e protetor, que é frequentemente usado como cão de guarda. Eles geralmente vivem cerca de 8 a 10 anos.",
+    image: "rottweiler.jpg"
+  },
+  "Boxer": {
+    info: "O Boxer é um cão enérgico e amigável, que adora estar perto da família. Eles geralmente vivem cerca de 10 a 12 anos.",
+    image: "boxer.jpg"
+  },
+  "Dachshund": {
+    info: "O Dachshund é um cão inteligente e corajoso, que é frequentemente usado como cão de caça. Eles geralmente vivem cerca de 12 a 15 anos.",
+    image: "dachshund.jpg"
+  },
+  "Chihuahua": {
+    info: "O Chihuahua é um cão pequeno e alerta, que é frequentemente usado como cão de companhia. Eles geralmente vivem cerca de 12 a 20 anos.",
+    image: "chihuahua.jpg"
+  },
+  "Shih Tzu": {
+    info: "O Shih Tzu é um cão de companhia leal e afetuoso, que é conhecido por seu longo pelo sedoso. Eles geralmente vivem cerca de 10 a 18 anos.",
+    image: "shih_tzu.jpg"
+  },
+  "Lhasa Apso": {
+    info: "O Lhasa Apso é um cão calmo e amigável, que é conhecido por seu longo pelo sedoso. Eles geralmente vivem cerca de 12 a 15 anos.",
+    image: "lhasa_apso.jpg"
+  },
+  "Maltês": {
+    info: "Em resumo, o Maltês é uma raça de cão pequeno e elegante, conhecida por sua pelagem branca e sedosa, bem como por seu temperamento afetuoso e gentil. Eles são cães de companhia populares e podem viver até 12-15 anos com cuidados adequados.",
+    image: "maltes.jpg"
+  },
+  "Yorkshire Terrier": {
+    info: "O Yorkshire Terrier é uma raça pequena e enérgica, conhecida por seu pelo sedoso e personalidade brincalhona. Eles geralmente vivem cerca de 11 a 15 anos.",
+    image: "yorkshire_terrier.jpg"
+  },
+  "Persa": {
+    info: "O gato Persa é conhecido por seu pelo longo e sedoso e sua personalidade tranquila e afetuosa. Eles geralmente vivem cerca de 12 a 16 anos.",
+    image: "persa.jpg"
+  },
+  "Maine Coon": {
+    info: "O gato Maine Coon é uma raça grande e majestosa, conhecida por seu pelo longo e densamente emaranhado e sua personalidade gentil. Eles geralmente vivem cerca de 12 a 15 anos.",
+    image: "maine_coon.jpg"
+  },
+  "Siamês": {
+    info: "O gato Siamês é uma raça elegante e inteligente, conhecida por sua personalidade extrovertida e faladora. Eles geralmente vivem cerca de 12 a 15 anos.",
+    image: "siames.jpg"
+  },
+  "Ragdoll": {
+    info: "O gato Ragdoll é uma raça grande e gentil, conhecida por sua personalidade relaxada e afetuosa. Eles geralmente vivem cerca de 12 a 17 anos.",
+    image: "ragdoll.jpg"
+  },
+  "Bengal": {
+    info: "O gato Bengal é uma raça ativa e brincalhona, conhecida por sua pelagem marcada e manchada e sua personalidade curiosa. Eles geralmente vivem cerca de 10 a 16 anos.",
+    image: "bengal.jpg"
+  },
+  "Abissínio": {
+    info: "O gato Abissínio é uma raça elegante e atlética, conhecida por sua pelagem ruiva e personalidade ativa e extrovertida. Eles geralmente vivem cerca de 12 a 15 anos.",
+    image: "abissinio.jpg"
+  },
+  "Sphynx": {
+    info: "O gato Sphynx é uma raça sem pelos, conhecida por sua aparência única e personalidade afetuosa e extrovertida. Eles geralmente vivem cerca de 8 a 14 anos.",
+    image: "sphynx.jpg"
+  },
+  "Birmanês": {
+    info: "O gato Birmanês é uma raça elegante e pacífica, conhecida por sua pelagem macia e personalidade afetuosa. Eles geralmente vivem cerca de 12 a 16 anos.",
+    image: "birmanes.jpg"
+  }
+}
+
+
 $(document).ready(function () {
 
   $('#modal-erro').modal({
@@ -79,7 +171,6 @@ function cadastrarPet(pet) {
 //---------------------------------------------------------------
 
 function alterarPet(pet, pet_id) {
-
   $.ajax({
     url: API_URL + `/${pet_id}`,
     method: 'PUT',
@@ -182,98 +273,6 @@ function preparaShowPetInfo() {
     let raca = event.target.value;
     let adiv = document.getElementById("breed-info");
 
-
-    const petInfo = {
-      "Labrador Retriever": {
-        info: "O Labrador Retriever é um cão amigável e inteligente, que adora brincar e estar perto da família. Eles geralmente vivem cerca de 10 a 12 anos.",
-        image: "labrador.jpg"
-      },
-      "Golden Retriever": {
-        info: "O Golden Retriever é um cão carinhoso e leal, que adora brincar e é muito inteligente. Eles geralmente vivem cerca de 10 a 12 anos.",
-        image: "golden.jpg"
-      },
-      "Pastor Alemão": {
-        info: "O Pastor Alemão é um cão inteligente e corajoso, que é comumente usado como cão de trabalho ou guarda. Eles geralmente vivem cerca de 9 a 13 anos.",
-        image: "pastor_alemao.jpg"
-      },
-      "Buldogue": {
-        info: "O Buldogue é um cão afetuoso e amigável, que adora estar perto da família. Eles geralmente vivem cerca de 8 a 10 anos.",
-        image: "buldogue.jpg"
-      },
-      "Beagle": {
-        info: "O Beagle é um cão enérgico e amigável, que é frequentemente usado para caça. Eles geralmente vivem cerca de 12 a 15 anos.",
-        image: "beagle.jpg"
-      },
-      "Poodle": {
-        info: "O Poodle é um cão inteligente e obediente, que é frequentemente usado em competições de beleza. Eles geralmente vivem cerca de 12 a 15 anos.",
-        image: "poodle.jpg"
-      },
-      "Rottweiler": {
-        info: "O Rottweiler é um cão leal e protetor, que é frequentemente usado como cão de guarda. Eles geralmente vivem cerca de 8 a 10 anos.",
-        image: "rottweiler.jpg"
-      },
-      "Boxer": {
-        info: "O Boxer é um cão enérgico e amigável, que adora estar perto da família. Eles geralmente vivem cerca de 10 a 12 anos.",
-        image: "boxer.jpg"
-      },
-      "Dachshund": {
-        info: "O Dachshund é um cão inteligente e corajoso, que é frequentemente usado como cão de caça. Eles geralmente vivem cerca de 12 a 15 anos.",
-        image: "dachshund.jpg"
-      },
-      "Chihuahua": {
-        info: "O Chihuahua é um cão pequeno e alerta, que é frequentemente usado como cão de companhia. Eles geralmente vivem cerca de 12 a 20 anos.",
-        image: "chihuahua.jpg"
-      },
-      "Shih Tzu": {
-        info: "O Shih Tzu é um cão de companhia leal e afetuoso, que é conhecido por seu longo pelo sedoso. Eles geralmente vivem cerca de 10 a 18 anos.",
-        image: "shih_tzu.jpg"
-      },
-      "Lhasa Apso": {
-        info: "O Lhasa Apso é um cão calmo e amigável, que é conhecido por seu longo pelo sedoso. Eles geralmente vivem cerca de 12 a 15 anos.",
-        image: "lhasa_apso.jpg"
-      },
-      "Maltês": {
-        info: "Em resumo, o Maltês é uma raça de cão pequeno e elegante, conhecida por sua pelagem branca e sedosa, bem como por seu temperamento afetuoso e gentil. Eles são cães de companhia populares e podem viver até 12-15 anos com cuidados adequados.",
-        image: "maltes.jpg"
-      },
-      "Yorkshire Terrier": {
-        info: "O Yorkshire Terrier é uma raça pequena e enérgica, conhecida por seu pelo sedoso e personalidade brincalhona. Eles geralmente vivem cerca de 11 a 15 anos.",
-        image: "yorkshire_terrier.jpg"
-      },
-      "Persa": {
-        info: "O gato Persa é conhecido por seu pelo longo e sedoso e sua personalidade tranquila e afetuosa. Eles geralmente vivem cerca de 12 a 16 anos.",
-        image: "persa.jpg"
-      },
-      "Maine Coon": {
-        info: "O gato Maine Coon é uma raça grande e majestosa, conhecida por seu pelo longo e densamente emaranhado e sua personalidade gentil. Eles geralmente vivem cerca de 12 a 15 anos.",
-        image: "maine_coon.jpg"
-      },
-      "Siamês": {
-        info: "O gato Siamês é uma raça elegante e inteligente, conhecida por sua personalidade extrovertida e faladora. Eles geralmente vivem cerca de 12 a 15 anos.",
-        image: "siames.jpg"
-      },
-      "Ragdoll": {
-        info: "O gato Ragdoll é uma raça grande e gentil, conhecida por sua personalidade relaxada e afetuosa. Eles geralmente vivem cerca de 12 a 17 anos.",
-        image: "ragdoll.jpg"
-      },
-      "Bengal": {
-        info: "O gato Bengal é uma raça ativa e brincalhona, conhecida por sua pelagem marcada e manchada e sua personalidade curiosa. Eles geralmente vivem cerca de 10 a 16 anos.",
-        image: "bengal.jpg"
-      },
-      "Abissínio": {
-        info: "O gato Abissínio é uma raça elegante e atlética, conhecida por sua pelagem ruiva e personalidade ativa e extrovertida. Eles geralmente vivem cerca de 12 a 15 anos.",
-        image: "abissinio.jpg"
-      },
-      "Sphynx": {
-        info: "O gato Sphynx é uma raça sem pelos, conhecida por sua aparência única e personalidade afetuosa e extrovertida. Eles geralmente vivem cerca de 8 a 14 anos.",
-        image: "sphynx.jpg"
-      },
-      "Birmanês": {
-        info: "O gato Birmanês é uma raça elegante e pacífica, conhecida por sua pelagem macia e personalidade afetuosa. Eles geralmente vivem cerca de 12 a 16 anos.",
-        image: "birmanes.jpg"
-      }
-    }
-
     adiv.innerHTML = `
           <h3>${raca}</h3>
           <p>${petInfo[raca].info}</p>
@@ -316,6 +315,17 @@ function preparaLinksRodape() {
   });
 }
 
+const clicouRaca = (event) => {
+  var raca = event.innerText;
+  var html = `
+        <h3>${raca}</h3>
+        <p>${petInfo[raca].info}</p>
+        <img src="images/pets/${petInfo[raca].image}" alt="${raca}" class="img-fluid">`;
+
+  mostraConteudoHtml(html);
+};
+
+
 //------------------------------------------------------------
 // FUNÇÕES AUXILIARES - Exibe uma mensagem de erro em um MODAL
 //------------------------------------------------------------
@@ -323,6 +333,12 @@ function mostraErro(mensagem) {
   $('#modal-erro-mensagem').text(mensagem);
   $('#modal-erro').modal('show');
 }
+
+function mostraConteudoHtml(mensagem) {
+  $('#modal-html-mensagem').html(mensagem);
+  $('#modal-html').modal('show');
+}
+
 
 function mostraAviso(mensagem) {
   $('#modal-aviso-mensagem').text(mensagem);
@@ -339,13 +355,6 @@ function mostraAviso(mensagem) {
     }
   }, 1000);
 }
-
-
-
-const clicouRaca = (event) => {
-  var url = `https://www.google.com/search?q=${event.innerText}`;
-  window.open(url, '_blank');
-};
 
 async function mostraMensagem(title, url) {
   const modalElement = document.getElementById('modal-message');

@@ -6,7 +6,7 @@ Este é um projeto muito simples de um SPA (Single Page Application) desenvolvid
 
 ## Como usar o projeto
 
-Para usar o projeto, basta abrir o arquivo index.html em um navegador de internet. Em seguida, você pode navegar pelo menu para visualizar os animais cadastrados, cadastrar um novo animal, ou listar os animais cadastrados.
+Após clonar o repositório em sua máquina, basta abrir o arquivo **index.html** em um navegador de internet. Em seguida, você pode navegar pelo menu para visualizar,  cadastrar, editar, ou excluir um pet.
 
 ## Tecnologias utilizadas
 
